@@ -6,7 +6,8 @@ DATASEG
 ; Your variables here
 ; --------------------------
 address dw 000Eh
-value dw 5
+AxValue dw 5
+BxValue dw 5
 
 CODESEG
 start:
@@ -14,11 +15,12 @@ start:
 	mov ds, ax
 	;--------------------  CODE STARTS HERE --------------------------------
 
-	mov ax,[value]
-	cmp ax,0
-	jle AfterdecAxByOn
-	dec ax
-							AfterdecAxByOn:
+	mov ax,[AxValue]
+	mov bx,[BxValue]
+	cmp ax,bx
+	je copyBxToAx
+	mov ax,bx
+							copyBxToAx:
 	
 	
 exit:
