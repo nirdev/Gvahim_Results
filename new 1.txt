@@ -1,0 +1,62 @@
+;	mov bx, 5
+;	mov ax, 5
+;	mov ah, 5
+;	mov al, 5
+;	mov bx, ax
+;	mov ax, bx
+;	mov ch, ah
+;	mov al, 100
+;	mov bx, 2
+;	mov [var], al
+;	mov [1], al
+;	mov [bx], al
+;	mov [bx+1], al
+;;1
+;	mov al, 0
+;	mov al, [var]
+;;2
+;	mov al, 0
+;	mov al, [1]
+;;3
+;	mov al, 0
+;	mov al, [bx]
+;;4
+;	mov al, 0
+;	mov al, [bx+1]
+;xor ax,ax
+;xor bx,bx
+;add ax,2
+;add ax,2
+;mov cs
+
+
+arrOfSixFives db 6 dup (45)
+	add ax,[arrOfSixFives]
+	add ax,[arrOfSixFives + 1]
+	add ax,[arrOfSixFives + 2]
+	add ax,[arrOfSixFives + 3]
+	add ax,[arrOfSixFives + 4]
+	add ax,[arrOfSixFives + 5]
+	========================================
+		mov ax,0
+	mov al,[arrOfSixFives]
+;	mov ah,0
+	add al,[arrOfSixFives + 1]
+	adc ah,0
+	add al,[arrOfSixFives + 2]
+	adc ah,0
+	add al,[arrOfSixFives + 3]
+	adc ah,0
+	add al,[arrOfSixFives + 4]
+	adc ah,0
+	add al,[arrOfSixFives + 5]
+	adc ah,0
+	
+;	mov [sum],ax
+	
+;	add ax,[arrOfSixFives]
+;	add ax,[arrOfSixFives + 1]
+;	add ax,[arrOfSixFives + 2]
+;	add ax,[arrOfSixFives + 3]
+;	add ax,[arrOfSixFives + 4]
+;	add ax,[arrOfSixFives + 5]

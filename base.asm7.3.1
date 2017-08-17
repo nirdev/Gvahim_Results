@@ -1,0 +1,30 @@
+IDEAL
+MODEL small
+STACK 100h
+DATASEG
+; -------------------------- 
+; Your variables here
+; --------------------------
+var1 db 5d
+var2 db 10d
+sum dw ?
+
+CODESEG
+start:
+	mov ax, @data
+	mov ds, ax
+	mov bx,0
+	mov bl,[var1]
+	mov al,[var2]
+	mul bl
+	mov [sum],ax
+		
+
+;----------------------------------------------------
+	
+exit:
+	mov ax, 4c00h
+	int 21h
+END start
+
+
