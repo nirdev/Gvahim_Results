@@ -5,8 +5,8 @@ DATASEG
 ; -------------------------- 
 ; Your variables here
 ; --------------------------
-var1 db 5
-var2 db 4
+h db ?
+l db ?
 sum db 0
 CODESEG
 start:
@@ -18,17 +18,51 @@ start:
 	xor ax,ax
 	xor bx,bx
 	
-	mov cl,[var2]
-			addA:
+	;get hight
+	mov ah,1h
+	int 21h
+	sub al,'0'
+	mov [h], al
 
-	mov al,[var1]
-	mov ah,[sum]
-	add ah,[var1]
-	mov [sum],ah
-	xor ax,ax
-	loop addA
-
+	;get length	
+	mov ah,1h
+	int 21h
+	sub al,'0'
+	mov [l],al
 	
+	;/n
+	mov dl,0ah
+	mov ah,2h
+	int 21h
+	
+
+	;Set outer loop indexes (cx for inner)
+	mov bl,[h]
+			outerLoop:
+	mov cl,[l]
+			innerLoop:
+	
+	mov dl,'x'
+	mov ah,2h
+	int 21h
+
+	loop innerLoop
+	;/n
+	mov dl,0ah
+	mov ah,2h
+	int 21h
+	
+	;outer looping
+	dec bx
+	cmp bx,0
+	jne outerLoop
+
+	;finished
+	;get length	
+	mov ah,1h
+	int 21h
+	sub al,'0'
+	mov [l],al
 	
 exit:
 	mov ax, 4c00h
