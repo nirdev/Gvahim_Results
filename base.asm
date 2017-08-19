@@ -5,8 +5,9 @@ DATASEG
 ; -------------------------- 
 ; Your variables here
 ; --------------------------
-arrLen db 5
-arr db 5 dup (?)
+var1 db 5
+var2 db 4
+sum db 0
 CODESEG
 start:
 	mov ax, @data
@@ -14,18 +15,21 @@ start:
 	;--------------------  CODE STARTS HERE --------------------------------
 	xor cx,cx
 	xor si,si
-
-	mov si,5
-	mov cx,5
-			newChar:
-	mov ah,1h
-	int 21h
-	mov si,5
-	sub si,cx
-	mov [arr+si],al
-	loop newChar
+	xor ax,ax
+	xor bx,bx
 	
+	mov cl,[var2]
+			addA:
 
+	mov al,[var1]
+	mov ah,[sum]
+	add ah,[var1]
+	mov [sum],ah
+	xor ax,ax
+	loop addA
+
+	
+	
 exit:
 	mov ax, 4c00h
 	int 21h
