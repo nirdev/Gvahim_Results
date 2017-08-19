@@ -5,10 +5,8 @@ DATASEG
 ; -------------------------- 
 ; Your variables here
 ; --------------------------
-address dw 000Eh
-var1 db 5
-var2 db 6 
-BxValue dw 0
+
+TimesToPrintX db 5
 
 CODESEG
 start:
@@ -17,21 +15,24 @@ start:
 	;--------------------  CODE STARTS HERE --------------------------------
 	xor ax,ax
 	xor bx,bx
+	xor cx,bx
 
-	mov bl,[var2]
-	mov al,[var1]
-		
-	cmp bl,al
-	je addVars
-	jne subVars
-			subVars:
-	sub ax,bx	
-	jmp finale
+	;Check if TimesToPrintX is Valid and jump to exit if it does
+	cmp [TimesToPrintX],0
+	jle exit
 	
-			addVars:
-	add ax,bx
-			finale:
-	
+			loopCon:	
+	cmp cl,[TimesToPrintX]
+	jne printXLoop
+	jmp exit
+			printXLoop:
+	mov dl,'x'
+	mov ah,2h
+	int 21h
+	inc cl
+	jmp loopCon
+
+
 exit:
 	mov ax, 4c00h
 	int 21h
