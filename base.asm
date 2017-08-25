@@ -3,48 +3,36 @@ MODEL small
 STACK 100h
 DATASEG
   	;--------------------  YOUR VARIABLES HERE -------------------  
-timeToPrintX dw -1
-returnAdd dw ?
+retAdd dw ?
+var1 dw 33h
 
 CODESEG
 
 
 	;--------------------  PROCEDURE STARTS HERE --------------------------------
-proc printX
 
-	pop [returnAdd] ;poping the sp value
-	pop cx ;poping the nubmer of times to run
-	
-	;checks if received valid valu to loop
-	cmp cx,0
-	jle procEnding
+proc incPbR
 
-	printXLoop:
+	pop [retAdd] ;save ret address
+	pop bx ;save parm ref
 
-	mov dl,'x'
-	mov ah,2h
-	int 21h
+	add [byte ptr ds:bx],1
 
-	loop printXLoop
-
-			procEnding:
-	push [returnAdd] ;push sp value back
+	push [retAdd]
 	ret
-	
-endp printX
+endp incPbR
 
 start:
 	mov ax, @data
 	mov ds, ax
 	;--------------------  CODE STARTS HERE --------------------------------
 
-	push [timeToPrintX]
-	call printX
-	xor ax,ax
-	
+	push offset var1 
+	call incPbR
 exit:
 	mov ax, 4c00h
 	int 21h
+
 END start
 
 
