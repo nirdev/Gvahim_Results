@@ -37,9 +37,10 @@ var1 equ [bp +8]
 	mov ax,var3
 	mov lvar3,ax
 
-
+	add sp,6
 	pop bp
-	ret
+	ret 6
+
 endp findMaxProc
 
 start:
@@ -51,6 +52,7 @@ start:
 	push 2 
 	push 3
 	call findMaxProc
+	xor ax,ax
 exit:
 	mov ax, 4c00h
 	int 21h
