@@ -3,19 +3,15 @@ MODEL small
 STACK 100h
 DATASEG
   	;--------------------  YOUR VARIABLES HERE -------------------  
-retAdd dw ?
-var1 dw 1h
-var2 dw 2h
-
-var1old dw ?
-var2old dw ?
+localMax dw ?
+max dw 0
 
 CODESEG
 
 
 	;--------------------  PROCEDURE STARTS HERE --------------------------------
 
-proc incPbR
+proc findMaxProc
 	
 	push bp
 	mov bp,sp
@@ -25,40 +21,36 @@ proc incPbR
 	xor cx,cx
 	xor dx,dx
 	
-	;save var1 original value to local pramater
-	mov bx,[bp+6]
-	mov ax,[word ptr ds:bx]
-	mov [var1old],ax
+	mov ax,[bp + 6];var1	
+	mov cx,[bp + 4];var2	
+	cmp ax,cx
+	jg var1bigger
 
-	;save var2 original value to local pramater
-	mov bx,[bp+4]
-	mov ax,[word ptr ds:bx]
-	mov [var2old],ax
+			var2bigger:
+	mov [localMax],cx
+	jmp setNewMax
+
+			var1bigger:
+	mov [localMax],ax
+	jmp setNewMax
+			setNewMax:
+	mov bx,[bp + 8]
+	mov dx,[localMax]
+	mov [word ptr ds:bx],dx
 	
-	;move value of var2 to var1
-	mov bx,[bp+6]
-	mov ax,[var2old]
-	mov [word ptr ds:bx],ax
-
-	;move value of var1 to var2
-	mov bx,[bp+4]
-	mov ax,[var1old]
-	mov [word ptr ds:bx],ax
-	
-
-
 	pop bp
 	ret
-endp incPbR
+endp findMaxProc
 
 start:
 	mov ax, @data
 	mov ds, ax
 	;--------------------  CODE STARTS HERE --------------------------------
-
-	push offset var1 
-	push offset var2 
-	call incPbR
+	
+	push offset max
+	push 10
+	push 5
+	call findMaxProc
 exit:
 	mov ax, 4c00h
 	int 21h
