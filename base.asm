@@ -12,32 +12,32 @@ CODESEG
 	;--------------------  PROCEDURE STARTS HERE --------------------------------
 
 proc findMaxProc
-	
+
+lvar1 equ [bp -2]
+lvar2 equ [bp -4]
+lvar3 equ [bp -6]
+
+var3 equ [bp +4]
+var2 equ [bp +6]
+var1 equ [bp +8]
+
 	push bp
 	mov bp,sp
-	
-	xor ax,ax
-	xor bx,bx
-	xor cx,cx
-	xor dx,dx
-	
-	mov ax,[bp + 6];var1	
-	mov cx,[bp + 4];var2	
-	cmp ax,cx
-	jg var1bigger
+	sub sp,6 ;allocate mememory for 2 dw vars
 
-			var2bigger:
-	mov [localMax],cx
-	jmp setNewMax
+	;set var1 to local var in stack
+	mov ax,var1
+	mov lvar1,ax
 
-			var1bigger:
-	mov [localMax],ax
-	jmp setNewMax
-			setNewMax:
-	mov bx,[bp + 8]
-	mov dx,[localMax]
-	mov [word ptr ds:bx],dx
-	
+	;set var2 to local var in stack
+	mov ax,var2
+	mov lvar2,ax
+
+	;set var3 to local var in stack
+	mov ax,var3
+	mov lvar3,ax
+
+
 	pop bp
 	ret
 endp findMaxProc
@@ -47,9 +47,9 @@ start:
 	mov ds, ax
 	;--------------------  CODE STARTS HERE --------------------------------
 	
-	push offset max
-	push 10
-	push 5
+	push 1 
+	push 2 
+	push 3
 	call findMaxProc
 exit:
 	mov ax, 4c00h
